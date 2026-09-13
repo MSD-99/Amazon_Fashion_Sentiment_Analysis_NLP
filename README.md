@@ -3,10 +3,9 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MSD-99/Amazon_Fashion_Sentiment_Analysis_NLP/blob/main/Amazon_Fashion_Sentiment_Analysis_NLP.ipynb)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![NLP](https://img.shields.io/badge/NLP-Bag%20of%20Words%20%7C%20TF--IDF-0052CC?style=for-the-badge&logo=scikitlearn&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An end-to-end Natural Language Processing (NLP) pipeline for customer sentiment classification on the **Amazon Fashion Reviews dataset** (UCSD Amazon Reviews 2023), featuring comparative machine learning benchmarks, feature interpretability, and grid-search hyperparameter optimization.
+An NLP experiment on the **Amazon Fashion Reviews dataset** (UCSD Amazon Reviews 2023), with linear and tree-based classifiers, coefficient inspection, and grid-search hyperparameter tuning.
 
 ---
 
@@ -26,13 +25,15 @@ Analyzing customer feedback in e-commerce requires robust text representation an
 
 ---
 
-## 🔬 Benchmark Performance & Model Comparison
+## 🔬 Recorded Model Comparison
 
 | Model | Test Accuracy | Precision (Macro) | Recall (Macro) | F1-Score (Macro) | Key Characteristics |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Logistic Regression (Tuned)** | **82.00%** | **0.824** | **0.820** | **0.820** | Optimal linear separation with calibrated probabilistic outputs. |
-| **Linear SVM** | **81.50%** | 0.818 | 0.815 | 0.815 | Robust maximum-margin hyperplane in high-dimensional text space. |
-| **Decision Tree Classifier** | 73.50% | 0.736 | 0.735 | 0.734 | Susceptible to high-variance over-partitioning on sparse vocabulary. |
+| **Logistic Regression (Tuned)** | **82.00%** | **0.82** | **0.82** | **0.82** | $C=100$, `liblinear` in the recorded grid search. |
+| **Linear SVM** | 80.00% | 0.80 | 0.80 | 0.80 | Linear kernel. |
+| **Decision Tree Classifier** | 74.00% | 0.74 | 0.74 | 0.74 | Default estimator in the recorded run. |
+
+These values come from a seeded 80/20 split of 250 balanced positive/negative reviews from one product, leaving only 50 test reviews. Neutral reviews are excluded. The notebook also fits `CountVectorizer` before the train/test split, which exposes the test vocabulary during feature construction. Treat the table as a small exploratory result, not a general Amazon Fashion benchmark.
 
 ---
 
@@ -61,7 +62,7 @@ Analyzing customer feedback in e-commerce requires robust text representation an
 ```text
 ├── Amazon_Fashion_Sentiment_Analysis_NLP.ipynb  # Interactive notebook with all execution logs & charts
 ├── data/
-│   └── amazon_fashion_sample.jsonl             # 2,000-review sample dataset for instant testing
+│   └── amazon_fashion_sample.jsonl             # 2,000-review convenience sample
 ├── figures/                                    # Exported high-resolution confusion matrix figures
 │   ├── lr_confusion_matrix.png
 │   ├── svm_confusion_matrix.png
@@ -91,3 +92,9 @@ pip install -r requirements.txt
 # Launch JupyterLab
 jupyter lab Amazon_Fashion_Sentiment_Analysis_NLP.ipynb
 ```
+
+The committed notebook expects the full `Amazon_Fashion.jsonl` under `src/data/amazon/`. To use the smaller committed sample, change `DATA_PATH`/`data_files` in the loading cell and verify that the selected product has enough reviews in both sentiment classes.
+
+## License
+
+Released under the [MIT License](LICENSE).
